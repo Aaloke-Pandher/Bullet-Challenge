@@ -28,8 +28,8 @@ class Circle():
         self.w = w 
         self.x = x 
         self.y = y   
-        self.xspeed = random.randrange(-3, 3)
-        self.yspeed = random.randrange(-3, 3) 
+        self.xspeed = random.choice([-3, -2, -1, 1, 2, 3])
+        self.yspeed = random.choice([-3, -2, -1, 1, 2, 3]) 
         self.c = c
     def drawCircle(self, screen):
         pygame.draw.ellipse(screen, self.c, [self.x, self.y, self.w, self.h], 2)  
@@ -42,7 +42,7 @@ circles = []
 for i in range(15): 
     randColor = [random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255)]
     wHRan = random.randrange(30, 40)
-    circles.append(Circle(random.randrange(0, 770), random.randrange(0, 400), wHRan, wHRan, randColor))       
+    circles.append(Circle(random.randrange(0, 770), random.randrange(0, 375), wHRan, wHRan, randColor))       
 
 # Wall Collision 
 def wallCollision(rect): 
@@ -52,7 +52,7 @@ def wallCollision(rect):
     elif rect.x <= 0:
         rect.xspeed = -rect.xspeed
         rect.yspeed = rect.yspeed
-    elif rect.y >= 450 - rect.h:
+    elif rect.y >= 500 - rect.h:
         rect.yspeed = -rect.yspeed
         rect.xspeed = rect.xspeed  
     elif rect.y <= 0:
@@ -77,10 +77,16 @@ def main():
         # Main event loop
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
-                done = True  
+                done = True   
+            # Check Key Pressed for Player Movement
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
+                player.x += -2 
+            elif keys[pygame.K_RIGHT]:
+                player.x += 2 
         
         screen.fill(Black)
-        pygame.draw.rect(screen, White, [0, 450, 800, 15]) 
+        pygame.draw.rect(screen, White, [0, 500, 800, 10]) 
         player.drawPlayer(screen)  
         for i in range(len(circles)):
             circles[i].drawCircle(screen)  
