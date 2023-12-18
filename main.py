@@ -83,9 +83,6 @@ bullets = []
 
 # Player
 player = Player(375, 550, 50, 50) 
-
-moveLeft = False 
-moveRight = False 
 # Main function 
 def main():
     pygame.init() 
@@ -128,7 +125,7 @@ def main():
         for i in range(len(bullets)):
             for j in range(len(circles)):
                 if rectCollision(bullets[i], circles[j]) == 1:
-                    circles.pop(j) 
+                    circles.pop(j) and bullets.pop(i) 
                     break
         pygame.display.flip()
  
