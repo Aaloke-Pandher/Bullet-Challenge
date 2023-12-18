@@ -82,7 +82,10 @@ def rectCollision(rect1, rect2):
 bullets = []   
 
 # Player
-player = Player(375, 550, 50, 50)
+player = Player(375, 550, 50, 50) 
+
+moveLeft = False 
+moveRight = False 
 # Main function 
 def main():
     pygame.init() 
@@ -101,15 +104,16 @@ def main():
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 done = True   
-            # Check Key Pressed for Player Movement
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT]:
-                player.x += -2 
-            elif keys[pygame.K_RIGHT]:
-                player.x += 2  
             # Add Bullets on mouse click
             if event.type == pygame.MOUSEBUTTONDOWN: 
                 bullets.append(Bullets(player.x + player.w/2, player.y, 5, 5)) 
+
+        # Check Key Pressed for Player Movement
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            player.x -= 5
+        if keys[pygame.K_RIGHT]:
+            player.x += 5  
         
         screen.fill(Black) 
         pygame.draw.rect(screen, White, [0, 500, 800, 10]) 
