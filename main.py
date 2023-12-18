@@ -125,6 +125,7 @@ def main():
             for j in range(len(circles)):
                 if rectCollision(bullets[i], circles[j]) == 1:
                     circles.pop(j) 
+                    break
         pygame.display.flip()
  
         # --- Limit frames
