@@ -37,6 +37,20 @@ class Circle():
         self.x += self.xspeed 
         self.y += self.yspeed  
 
+# Bullet Class 
+class Bullets():
+    def __init__(self, x, y, w, h):
+        self.h = h
+        self.w = w 
+        self.x = x 
+        self.y = y 
+        self.yspeed = -5
+    def drawBullets(self, screen):
+        pygame.draw.ellipse(screen, White, [self.x, self.y, self.w, self.h])  
+    def moveBullets(self):
+        self.y += self.yspeed  
+
+
 # List of Circles 
 circles = [] 
 for i in range(15): 
@@ -59,6 +73,15 @@ def wallCollision(rect):
         rect.yspeed = -rect.yspeed 
         rect.xspeed = rect.xspeed  
 
+# Collision Function 
+def rectCollision(rect1, rect2): 
+   if rect1.x < rect2.x + rect2.w and rect1.y < rect2.y + rect2.h and rect1.x + rect1.w > rect2.x and rect1.y + rect1.h > rect2.y:
+        return 1
+
+# Bullets List 
+bullets = []   
+
+# Player
 player = Player(375, 550, 50, 50)
 # Main function 
 def main():
@@ -83,15 +106,25 @@ def main():
             if keys[pygame.K_LEFT]:
                 player.x += -2 
             elif keys[pygame.K_RIGHT]:
-                player.x += 2 
+                player.x += 2  
+            # Add Bullets on mouse click
+            if event.type == pygame.MOUSEBUTTONDOWN: 
+                bullets.append(Bullets(player.x + player.w/2, player.y, 5, 5)) 
         
-        screen.fill(Black)
+        screen.fill(Black) 
         pygame.draw.rect(screen, White, [0, 500, 800, 10]) 
         player.drawPlayer(screen)  
         for i in range(len(circles)):
             circles[i].drawCircle(screen)  
             wallCollision(circles[i])
-            circles[i].moveCircle()
+            circles[i].moveCircle() 
+        for i in range(len(bullets)): 
+            bullets[i].drawBullets(screen)
+            bullets[i].moveBullets() 
+        for i in range(len(bullets)):
+            for j in range(len(circles)):
+                if rectCollision(bullets[i], circles[j]) == 1:
+                    circles.pop(j) 
         pygame.display.flip()
  
         # --- Limit frames
